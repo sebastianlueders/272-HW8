@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   SEBASTIAN LUEDERS / 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -103,8 +103,31 @@ public class Graph {
    */
   
   public int findRoot() {
+    int[] hasIncoming = new int[numVertices];
 
-    // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
+    for(int i = 0; i < numVertices; i++) {
+
+      LinkedList<Integer> current = adjListArr[i];
+      
+      for(int dest : current) {
+        hasIncoming[dest]++;
+      }
+
+    }
+
+    int root = -1;
+
+    for (int i = 0; i < numVertices; i++) {
+
+      if(hasIncoming[i] == 0 && root != -1) {
+        return -1;
+      } else if (hasIncoming[i] == 0) {
+        root = vertexValues.get(i);
+      }
+
+    }
+
+    return root;
+    
   } 
 }

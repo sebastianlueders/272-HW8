@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   SEBASTIAN LUEDERS / 002
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
@@ -72,17 +72,55 @@ class ProblemSolutions {
      * @return boolean          - True if all exams can be taken, else false.
      */
 
-    public boolean canFinish(int numExams, 
-                             int[][] prerequisites) {
+    public boolean canFinish(int numExams, int[][] prerequisites) {
       
+        boolean finishable = true;
+
         int numNodes = numExams;  // # of nodes in graph
 
         // Build directed graph's adjacency list
-        ArrayList<Integer>[] adj = getAdjList(numExams, 
-                                        prerequisites); 
+        ArrayList<Integer>[] adj = getAdjList(numExams, prerequisites); 
 
-        // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        boolean completed[] = new boolean[numNodes];
+        boolean exploring[] = new boolean[numNodes];
+        
+        for(int i = 0; i < numNodes; i++) {
+
+            if(!completed[i]) {
+                Stack<Integer> verticesFound = new Stack<>();
+                verticesFound.push(i);
+
+                while(!verticesFound.isEmpty()) {
+                    int current = verticesFound.peek();
+                    
+                    if(!completed[current] && !exploring[current]) {
+                        exploring[current] = true;
+
+                        for(int neighbor : adj[current]) {
+                            
+                            if(exploring[neighbor]) {
+                                finishable = false;
+                                return finishable;
+
+                            } 
+                            if (!completed[neighbor]) {
+                                verticesFound.push(neighbor);
+                            }
+                        }
+                    } else if(exploring[current]) {
+                        exploring[current] = false;
+                        completed[current] = true;
+                        verticesFound.pop();
+                    } else {
+                        verticesFound.pop();
+                    }
+                    
+
+                }
+            }
+        }
+
+        return finishable;
 
     }
 
