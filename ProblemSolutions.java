@@ -228,9 +228,30 @@ class ProblemSolutions {
             }
         }
 
-        // YOUR CODE GOES HERE - you can add helper methods, you do not need
-        // to put all code in this method.
-        return -1;
+        boolean[] visited = new boolean[numNodes];
+        int groups = 0;
+
+        for(i = 0; i < numNodes; i++) {
+            if(!visited[i]) {
+                dfs(i, graph, visited);
+                groups++;
+            }
+
+        }
+        
+        return groups;
+    }
+
+
+    private void dfs(int node, Map<Integer,List<Integer>> graph, boolean[] visited) {
+        visited[node] = true;
+
+        List<Integer> neighs = graph.getOrDefault(node, new ArrayList<>());
+        for(int n : neighs) {
+            if(!visited[n]) {
+                dfs(n, graph, visited);
+            }
+        }
     }
 
 }
